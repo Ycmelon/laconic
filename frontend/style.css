@@ -1,3 +1,7 @@
+body {
+  background-color: #008080;
+}
+
 .center {
   position: absolute;
   left: 50%;
