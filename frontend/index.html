@@ -110,4 +110,13 @@
       </section>
     </div>
   </div>
+
+  <script>
+    document.getElementById("alias").onkeydown = (e) => {
+      if (e.keyCode == 13) submit();
+    };
+    document.getElementById("url").onkeydown = (e) => {
+      if (e.keyCode == 13) submit();
+    };
+  </script>
 </body>
