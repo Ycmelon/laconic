@@ -1,6 +1,10 @@
 # laconic
 
-URL shortener on Neocities
+URL shortener built on Neocities
+
+[Check it out live!](https://laconic.neocities.org)
+
+![Screenshot of the website](.github/screenshot.png)
 
 ## License
 
