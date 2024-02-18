@@ -25,21 +25,21 @@ def create():
     url = request.form.get("url")
     alias = request.form.get("alias")
 
-    if url is None:
-        return "Missing URL", 400
+    if url is None or url == "":
+        return "missing_url", 400
     elif not validators.url(url):
-        return "Invalid URL", 400
-    elif alias is None or len(alias) == 0:
-        return "Missing alias", 400
+        return "invalid_url", 400
+    elif alias is None or alias == "":
+        return "missing_alias", 400
     elif len(alias) > 30 or not all(c.isalnum() for c in alias):
-        return "Invalid alias", 400
+        return "invalid_alias", 400
     elif record_exists(alias):
-        return "Alias already exists", 400
+        return "alias_collision", 400
 
     create_record(alias, url)
     # db["stats"][today] = db["stats"].get(today, 0) + 1
 
-    return "Success", 200
+    return "success", 200
 
 
 @app.get("/get")
@@ -49,7 +49,7 @@ def get():
     try:
         url = get_record(alias)
     except KeyError:
-        return "Not found", 404
+        return "not_found", 404
 
     return url, 200
 
