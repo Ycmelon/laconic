@@ -1,0 +1,29 @@
+.center {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+}
+
+/* https://stackoverflow.com/a/57289650/10546571 */
+p span:before {
+  animation: dots 2s linear infinite;
+  content: "";
+}
+
+@keyframes dots {
+  0%,
+  20% {
+    content: ".";
+  }
+  40% {
+    content: "..";
+  }
+  60% {
+    content: "...";
+  }
+  90%,
+  100% {
+    content: "";
+  }
+}

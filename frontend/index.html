@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<head>
+  <title>Laconic</title>
+  <link rel="stylesheet" href="https://unpkg.com/98.css" />
+  <link rel="stylesheet" href="style.css" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <script>
+    function showAlert(title, content) {
+      document.getElementById("alert-title").innerText = title;
+      document.getElementById("alert-content").innerHTML = content;
+
+      document.getElementById("alert").style.display = "block";
+    }
+
+    function hideAlert() {
+      document.getElementById("alert").style.display = "none";
+    }
+
+    const errorMessages = {
+      missing_url: "Please enter a Web Address!",
+      invalid_url: "Invalid Web Address!",
+      missing_alias: "Please enter an alias!",
+      invalid_alias: "Invalid alias!",
+      alias_collision: "That alias is taken!",
+    };
+
+    function submit() {
+      document.getElementById("loading").style.display = "block";
+
+      const data = new FormData();
+      const alias = document.getElementById("alias").value;
+      data.append("alias", alias);
+      data.append("url", document.getElementById("url").value);
+
+      fetch("https://coffee-hummingbird-suit.cyclic.app/create", {
+        // fetch("http://localhost:5000/create", {
+        method: "post",
+        body: data,
+      }).then((response) => {
+        document.getElementById("loading").style.display = "none";
+
+        if (response.status == 200) {
+          showAlert(
+            "Success",
+            `Your Web Address was successfully shortened to
+            <a href="https://laconic.neocities.org/${alias}">https://laconic.neocities.org/${alias}</a>`
+          );
+          return;
+        }
+
+        // otherwise, error handling
+        response
+          .text()
+          .then((text) =>
+            showAlert("Error", errorMessages[text] || "Unknown error!")
+          );
+      });
+    }
+  </script>
+</head>
+<body>
+  <div class="window center" style="width: 300px">
+    <div class="title-bar">
+      <div class="title-bar-text">Laconic</div>
+      <div class="title-bar-controls">
+        <button aria-label="Minimize"></button>
+        <button aria-label="Maximize"></button>
+        <button aria-label="Close"></button>
+      </div>
+    </div>
+    <div class="window-body">
+      <div class="field-row">
+        <label for="url" style="width: 100px">Web Address</label>
+        <input id="url" type="text" style="width: 100%" />
+      </div>
+      <div class="field-row">
+        <label for="alias" style="width: 100px">Alias</label>
+        <input id="alias" type="text" style="width: 100%" />
+      </div>
+      <section class="field-row" style="justify-content: flex-end">
+        <button onclick="submit()">OK</button>
+      </section>
+    </div>
+    <div class="status-bar">
+      <p class="status-bar-field">Press F1 for help</p>
+      <p class="status-bar-field">Ready</p>
+      <p class="status-bar-field">CPU Usage: 14%</p>
+    </div>
+  </div>
+
+  <div id="loading" class="window center" style="width: 100px; display: none">
+    <div class="window-body">
+      <p>Loading<span></span></p>
+    </div>
+  </div>
+
+  <div id="alert" class="window center" style="width: 250px; display: none">
+    <div class="title-bar">
+      <div class="title-bar-text" id="alert-title"></div>
+      <div class="title-bar-controls">
+        <button aria-label="Minimize" onclick="hideAlert()"></button>
+        <button aria-label="Close" onclick="hideAlert()"></button>
+      </div>
+    </div>
+    <div class="window-body">
+      <p id="alert-content"></p>
+      <section class="field-row" style="justify-content: flex-end">
+        <button onclick="hideAlert()">OK</button>
+      </section>
+    </div>
+  </div>
+</body>

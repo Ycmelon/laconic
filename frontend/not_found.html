@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<head>
+  <title>Laconic</title>
+  <link rel="stylesheet" href="https://unpkg.com/98.css" />
+  <link rel="stylesheet" href="style.css" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <script>
+    function showAlert(title, content) {
+      document.getElementById("alert-title").innerText = title;
+      document.getElementById("alert-content").innerHTML = content;
+
+      document.getElementById("alert").style.display = "block";
+    }
+
+    function hideAlert() {
+      document.getElementById("alert").style.display = "none";
+    }
+
+    const errorMessages = { not_found: "That alias was not found!" };
+
+    const alias = window.location.pathname.split("/").at(-1);
+
+    fetch(`https://coffee-hummingbird-suit.cyclic.app/get?alias=${alias}`).then(
+      (response) => {
+        // fetch(`http://localhost:5000/get?alias=${alias}`).then((response) => {
+        document.getElementById("loading").style.display = "none";
+
+        if (response.status == 200) {
+          response.text().then((text) => window.location.replace(text));
+          return;
+        }
+
+        // otherwise, error handling
+        response
+          .text()
+          .then((text) =>
+            showAlert("Error", errorMessages[text] || "Unknown error!")
+          );
+      }
+    );
+  </script>
+</head>
+<body>
+  <div id="loading" class="window center" style="width: 100px">
+    <div class="window-body">
+      <p>Loading<span></span></p>
+    </div>
+  </div>
+
+  <div id="alert" class="window center" style="width: 250px; display: none">
+    <div class="title-bar">
+      <div class="title-bar-text" id="alert-title"></div>
+      <div class="title-bar-controls">
+        <button aria-label="Minimize"></button>
+        <button aria-label="Close"></button>
+      </div>
+    </div>
+    <div class="window-body">
+      <p id="alert-content"></p>
+    </div>
+  </div>
+</body>
