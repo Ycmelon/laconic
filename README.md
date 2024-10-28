@@ -2,7 +2,7 @@
 
 URL shortener built on Neocities
 
-[Check it out live!](https://laconic.neocities.org)
+~[Check it out live!](https://laconic.neocities.org)~ No longer operational as cyclic.sh has shut down :(
 
 ![Screenshot of the website](.github/screenshot.png)
 
